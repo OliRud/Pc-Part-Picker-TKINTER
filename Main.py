@@ -7,32 +7,41 @@ def load_data():
     with open("Parts list.csv", "r") as f:
         file = csv.reader(f)
         for row in file:
-            data.append(row)
+            file_data.append(row)
     
     #select the parts for each catagory
-    for row in data:
+    for row in file_data:
         match row[0]:
             case "CPU":
-                cpu_parts.append(row)
+                data["cpu_parts"].append(row)
             case "GPU":
-                gpu_parts.append(row)
+                data["gpu_parts"].append(row)
             case "RAM":
-                ram_parts.append(row)
+                data["ram_parts"].append(row)
             case "POWER":
-                power_parts.append(row)
+                data["power_parts"].append(row)
             case "HDD":
-                hdd_parts.append(row)
+                data["hdd_parts"].append(row)
             case "SSD":
-                ssd_parts.append(row)
+                data["ssd_parts"].append(row)
+    
+    print(data["gpu_parts"])
+
+def update_list():
+    pass
 
 
-data = []
-cpu_parts = []
-gpu_parts = []
-ram_parts = []
-power_parts = []
-hdd_parts = []
-ssd_parts = []
+
+file_data = []
+
+data = {
+    "cpu_parts":[],
+    "gpu_parts":[],
+    "ram_parts":[],
+    "power_parts":[],
+    "hdd_parts":[],
+    "ssd_parts":[]
+}
 
 
 
@@ -63,8 +72,17 @@ s.map("TNotebook", background= [("selected", "green3")])
 tab_control = ttk.Notebook(root)
 tab1 = ttk.Frame(tab_control, height=320,) #add a tab to the notebook
 tab2 = ttk.Frame(tab_control, width=440, height=320)
+tab3 = ttk.Frame(tab_control, width=440, height=320)
+tab4 = ttk.Frame(tab_control, width=440, height=320)
+tab5 = ttk.Frame(tab_control, width=440, height=320)
+tab5 = ttk.Frame(tab_control, width=440, height=320)
+tab6 = ttk.Frame(tab_control, width=440, height=320)
 tab_control.add(tab1, text="CPU") 
-tab_control.add(tab2, text="GPU") 
+tab_control.add(tab2, text="GPU")
+tab_control.add(tab3, text="RAM")
+tab_control.add(tab4, text="POWER")
+tab_control.add(tab5, text="HDD")
+tab_control.add(tab6, text="SSD")
 tab_control.place(x=10, y=60)
 
 #cart list
@@ -84,6 +102,16 @@ message_label.place(x=10, y=410)
 #checkout
 checkout_button = tk.Button(root, text= "Checkout",font=("Arial",22),bg="#92c9b1")
 checkout_button.place(x = 10, y = 460)
+
+
+
+
+#tab contents
+for index in data:
+    if index == "cpu_parts":
+        for part in data[index]:
+            CPUListBox = tk.Checkbutton(tab1,text = part[1] + "        $"+part[2], variable = part,)
+            CPUListBox.pack(anchor=tk.W)
 
 
 root.mainloop()
