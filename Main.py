@@ -51,7 +51,7 @@ load_data()
 
 #set up the main window
 root = tk.Tk()
-root.geometry("700x550")
+root.geometry("450x430")
 root.config(background="#a2faa3")
 root.title("Pc Store Program")
 
@@ -70,7 +70,7 @@ s.map("TNotebook", background= [("selected", "green3")])
 
 #make the tabbed notebook
 tab_control = ttk.Notebook(root)
-tab1 = ttk.Frame(tab_control, height=320,) #add a tab to the notebook
+tab1 = ttk.Frame(tab_control, height=320) #add a tab to the notebook
 tab2 = ttk.Frame(tab_control, width=440, height=320)
 tab3 = ttk.Frame(tab_control, width=440, height=320)
 tab4 = ttk.Frame(tab_control, width=440, height=320)
@@ -93,15 +93,15 @@ list = tk.Listbox(root, height = 18,
                   font = "Helvetica",
                   fg = "yellow")
 
-list.place(x = 480,y = 60)
+list.place(x = 260,y = 60)
 
 #price
 message_label = tk.Label(root,text="Your total cost is:",font=("Arial",22),bg="#a2faa3")
-message_label.place(x=10, y=410)
+message_label.place(x=10, y=280)
 
 #checkout
 checkout_button = tk.Button(root, text= "Checkout",font=("Arial",22),bg="#92c9b1")
-checkout_button.place(x = 10, y = 460)
+checkout_button.place(x = 10, y = 345)
 
 
 
@@ -112,6 +112,26 @@ for index in data:
         for part in data[index]:
             CPUListBox = tk.Checkbutton(tab1,text = part[1] + "        $"+part[2], variable = part,)
             CPUListBox.pack(anchor=tk.W)
+    if index == "gpu_parts":
+        for part in data[index]:
+            GPUListBox = tk.Checkbutton(tab2,text = part[1] + "        $"+part[2], variable = part,)
+            GPUListBox.pack(anchor=tk.W)
+    if index == "ram_parts":
+        for part in data[index]:
+            RAMListBox = tk.Checkbutton(tab3,text = part[1] + "        $"+part[2], variable = part,)
+            RAMListBox.pack(anchor=tk.W)
+    if index == "power_parts":
+        for part in data[index]:
+            PowerListBox = tk.Checkbutton(tab4,text = part[1] + "        $"+part[2], variable = part,)
+            PowerListBox.pack(anchor=tk.W)
+    if index == "hdd_parts":
+        for part in data[index]:
+            HDDListBox = tk.Checkbutton(tab5,text = part[1] + "        $"+part[2], variable = part,)
+            HDDListBox.pack(anchor=tk.W)
+    if index == "ssd_parts":
+        for part in data[index]:
+            SDDListBox = tk.Checkbutton(tab6,text = part[1] + "        $"+part[2], variable = part,)
+            SDDListBox.pack(anchor=tk.W)
 
 
 root.mainloop()
