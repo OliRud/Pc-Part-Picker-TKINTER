@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import csv
 
 #loading the data
@@ -24,13 +24,39 @@ def load_data():
                 data["hdd_parts"].append(row)
             case "SSD":
                 data["ssd_parts"].append(row)
+
+
+def update_list(part,cst):
+    overall_cost = 0
     
-    print(data["gpu_parts"])
+    ##listbox
+    try:
+        #if it already exists within the array, remove it
+        cart.remove(part)
+    except:
+        cart.append(part)
+    
+    print(cart)
 
-def update_list():
-    pass
+    lb_contents.set(cart)
 
+    ##cost
+    try:
+        cost.remove(float(cst))
+    except:
+        cost.append(float(cst))
+    
+    for item in cost:
+        overall_cost += item
+    
+    pricetag.set("$"+str(overall_cost))
+    
+    
+def process_order():
+    messagebox.showinfo("Success :D","Order processed, thankyou for choosing Oli Rud's Pc Part Picker.")
 
+    
+    
 
 file_data = []
 
@@ -43,7 +69,10 @@ data = {
     "ssd_parts":[]
 }
 
+cart = []
 
+
+cost = []
 
 #MAIN
 
@@ -54,6 +83,9 @@ root = tk.Tk()
 root.geometry("450x430")
 root.config(background="#a2faa3")
 root.title("Pc Store Program")
+
+lb_contents = tk.StringVar(value=[])
+pricetag = tk.StringVar(value="$0.00")
 
 #Title
 message_label = tk.Label(root,text="Oli Rud's PC Part Picker",font=("Arial",22),bg="#a2faa3")
@@ -88,6 +120,8 @@ tab_control.place(x=10, y=60)
 #cart list
 list = tk.Listbox(root, height = 18, 
                   width = 20, 
+                  listvariable=lb_contents,
+                  selectmode=tk.MULTIPLE,
                   bg = "grey",
                   activestyle = 'dotbox', 
                   font = "Helvetica",
@@ -96,11 +130,11 @@ list = tk.Listbox(root, height = 18,
 list.place(x = 260,y = 60)
 
 #price
-message_label = tk.Label(root,text="Your total cost is:",font=("Arial",22),bg="#a2faa3")
+message_label = tk.Label(root,textvariable=pricetag,font=("Arial",22),bg="#a2faa3")
 message_label.place(x=10, y=280)
 
 #checkout
-checkout_button = tk.Button(root, text= "Checkout",font=("Arial",22),bg="#92c9b1")
+checkout_button = tk.Button(root, text= "Checkout",font=("Arial",22),bg="#92c9b1",command=process_order)
 checkout_button.place(x = 10, y = 345)
 
 
@@ -110,27 +144,28 @@ checkout_button.place(x = 10, y = 345)
 for index in data:
     if index == "cpu_parts":
         for part in data[index]:
-            CPUListBox = tk.Checkbutton(tab1,text = part[1] + "        $"+part[2], variable = part,)
+            partname = part[1]
+            CPUListBox = tk.Checkbutton(tab1,text = part[1] + "        $"+part[2], variable=part[1], command=lambda partname = part[1], cost = part[2]: update_list(partname,cost))
             CPUListBox.pack(anchor=tk.W)
     if index == "gpu_parts":
         for part in data[index]:
-            GPUListBox = tk.Checkbutton(tab2,text = part[1] + "        $"+part[2], variable = part,)
+            GPUListBox = tk.Checkbutton(tab2,text = part[1] + "        $"+part[2], variable = part, command=lambda partname = part[1], cost = part[2]: update_list(partname,cost))
             GPUListBox.pack(anchor=tk.W)
     if index == "ram_parts":
         for part in data[index]:
-            RAMListBox = tk.Checkbutton(tab3,text = part[1] + "        $"+part[2], variable = part,)
+            RAMListBox = tk.Checkbutton(tab3,text = part[1] + "        $"+part[2], variable = part, command=lambda partname = part[1], cost = part[2]: update_list(partname,cost))
             RAMListBox.pack(anchor=tk.W)
     if index == "power_parts":
         for part in data[index]:
-            PowerListBox = tk.Checkbutton(tab4,text = part[1] + "        $"+part[2], variable = part,)
+            PowerListBox = tk.Checkbutton(tab4,text = part[1] + "        $"+part[2], variable = part, command=lambda partname = part[1], cost = part[2]: update_list(partname,cost))
             PowerListBox.pack(anchor=tk.W)
     if index == "hdd_parts":
         for part in data[index]:
-            HDDListBox = tk.Checkbutton(tab5,text = part[1] + "        $"+part[2], variable = part,)
+            HDDListBox = tk.Checkbutton(tab5,text = part[1] + "        $"+part[2], variable = part, command=lambda partname = part[1], cost = part[2]: update_list(partname,cost))
             HDDListBox.pack(anchor=tk.W)
     if index == "ssd_parts":
         for part in data[index]:
-            SDDListBox = tk.Checkbutton(tab6,text = part[1] + "        $"+part[2], variable = part,)
+            SDDListBox = tk.Checkbutton(tab6,text = part[1] + "        $"+part[2], variable = part, command=lambda partname = part[1], cost = part[2]: update_list(partname,cost))
             SDDListBox.pack(anchor=tk.W)
 
 
